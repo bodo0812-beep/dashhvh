@@ -1,0 +1,21 @@
+name: DASH Client Builder
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Compile DASH DLL
+        run: |
+          cl.exe /LD main.cpp Client.cpp DupeModule.cpp NestedModule.cpp /Fe:DASH_Client.dll /EHsc /D_USRDLL /D_WINDLL user32.lib gdi32.lib
+          
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: DASH-Final-DLL
+          path: DASH_Client.dll
