@@ -5,16 +5,17 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Setup Developer Command Prompt
+      - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Compile DASH DLL
+      - name: Compile DLL
         run: |
-          cl.exe /LD main.cpp Client.cpp DupeModule.cpp NestedModule.cpp /Fe:DASH_Client.dll /EHsc /D_USRDLL /D_WINDLL user32.lib gdi32.lib
+          cl.exe /LD main.cpp Client.cpp /Fe:DASH_Client.dll /EHsc /D_USRDLL /D_WINDLL user32.lib gdi32.lib
           
-      - name: Upload Artifact
+      - name: Upload DLL
         uses: actions/upload-artifact@v4
         with:
           name: DASH-Final-DLL
